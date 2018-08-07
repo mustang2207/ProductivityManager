@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ProductivityTimer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="timer">Timer</string>
+    <string name="work_session">Work session</string>
+    <string name="break_interval">Break interval</string>
+    <string name="long_break_interval">Long break interval</string>
+</resources>
