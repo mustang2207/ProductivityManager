@@ -8,127 +8,147 @@
     tools:layout_editor_absoluteY="81dp"
     tools:showIn="@layout/activity_main">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/st_fr_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
+        app:layout_constraintGuide_begin="16dp"
+        />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
+        android:id="@+id/st_fr_guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="48dp" />
+        app:layout_constraintGuide_end="60dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/settingsContainer1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:id="@+id/st_fr_tv_timer"
         android:text="@string/timer"
-        style="@style/HeadText"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/st_fr_guideline2"
+        app:layout_constraintStart_toStartOf="@+id/st_fr_guideline"
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/HeadText"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/st_fr_tv_work_session"
         android:text="@string/work_session"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/settingsContainer1" />
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/st_fr_guideline2"
+        app:layout_constraintStart_toStartOf="@+id/st_fr_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/st_fr_tv_timer"
+        />
 
     <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/seekBar"
-        style="@android:style/Widget.Material.Light.SeekBar"
+        android:id="@+id/st_fr_sb_work_session"
         android:layout_width="0dp"
         android:layout_height="14dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:max="100"
-        android:progress="1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        android:progress="5"
+        app:layout_constraintEnd_toStartOf="@+id/st_fr_guideline2"
+        app:layout_constraintStart_toStartOf="@+id/st_fr_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/st_fr_tv_work_session"
+        style="@android:style/Widget.Material.Light.SeekBar"
+        />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/workSessionTextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/st_fr_tv_work_session_value"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:gravity="end"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        app:layout_constraintStart_toStartOf="@+id/st_fr_guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/st_fr_tv_work_session"
         tools:text="32" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
+        android:id="@+id/st_fr_tv_break_interval"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/break_interval"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+        app:layout_constraintEnd_toStartOf="@+id/st_fr_guideline2"
+        app:layout_constraintStart_toStartOf="@+id/st_fr_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/st_fr_sb_work_session"
+        />
 
     <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/seekBar2"
+        android:id="@+id/st_fr_sb_break_interval"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:max="100"
+        android:max="30"
         android:progress="1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintEnd_toStartOf="@+id/st_fr_guideline2"
+        app:layout_constraintStart_toStartOf="@+id/st_fr_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/st_fr_tv_break_interval"
+        />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
+        android:id="@+id/st_fr_tv_break_interval_value"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:gravity="end"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        app:layout_constraintStart_toStartOf="@+id/st_fr_guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/st_fr_tv_break_interval"
         tools:text="32" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/long_break_interval"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar2" />
-
-    <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/seekBar3"
+        android:id="@+id/st_fr_tv_long_break_interval"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:max="100"
-        android:progress="1"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        android:text="@string/long_break_interval"
+        app:layout_constraintEnd_toStartOf="@+id/st_fr_guideline2"
+        app:layout_constraintStart_toStartOf="@+id/st_fr_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/st_fr_sb_break_interval"
+        />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/st_fr_sb_long_break_interval"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:max="60"
+        android:progress="5"
+        app:layout_constraintEnd_toStartOf="@+id/st_fr_guideline2"
+        app:layout_constraintStart_toStartOf="@+id/st_fr_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/st_fr_tv_long_break_interval"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/st_fr_tv_long_break_interval_value"
+        android:layout_width="33dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="end"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:layout_constraintStart_toStartOf="@+id/st_fr_guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/st_fr_tv_long_break_interval"
         tools:text="32" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

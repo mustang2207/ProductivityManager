@@ -24,7 +24,7 @@
         android:layout_weight="1"
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph"
-        tools:layout="@layout/fragment_settings"/>
+        tools:layout="@layout/fragment_main"/>
 
 
 </LinearLayout>
