@@ -40,11 +40,17 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mSettingsViewModel = ViewModelProviders.of(getActivity()).get(SettingsViewModel.class);
         mTimerViewModel = ViewModelProviders.of(getActivity()).get(TimerViewModel.class);
-        mTimerViewModel.setTimer(mSettingsViewModel.getWorkSession().getValue());
+        mTimerViewModel.setInterval(mSettingsViewModel.getWorkSession().getValue());
 
 
         final AppCompatTextView timerTextView = getActivity().findViewById(R.id.mn_fr_tv_timer);
-        timerTextView.setText(mTimerViewModel.getTimer().getValue());
+        mTimerViewModel.getTimer().observe(getActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String str) {
+                timerTextView.setText(mTimerViewModel.getTimer().getValue());
+
+            }
+        });
         timerTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,7 +65,5 @@ public class MainFragment extends Fragment {
                 });
             }
         });
-
     }
-
 }

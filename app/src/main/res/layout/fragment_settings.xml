@@ -55,6 +55,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:max="100"
+        android:min="20"
         android:progress="5"
         app:layout_constraintEnd_toStartOf="@+id/st_fr_guideline2"
         app:layout_constraintStart_toStartOf="@+id/st_fr_guideline"

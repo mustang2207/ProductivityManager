@@ -10,9 +10,33 @@ public class TimerViewModel extends ViewModel {
 
     private MutableLiveData<String> timer = new MutableLiveData<>();
 
+    private Runnable timerRunnable;
+    private Handler timerHandler;
     private boolean isTimerOn = false;
+    private long startTime = -1;
 
-    public void startTimer(final int interval) {
+    public void startTimer(int interval) {
+        startTimer((long)(interval * 60 * ONE_SECOND));
+    }
+
+    public void stopTimer() {
+        if (isTimerOn) {
+            timerHandler.removeCallbacks(timerRunnable);
+            isTimerOn = false;
+        }
+    }
+
+    public void setInterval(int interval) {
+        if (!isTimerOn) {
+            int seconds = 0;
+            int minutes = interval;
+            this.timer.setValue(String.format("%d:%02d", minutes, seconds));
+        } else {
+            setInterval((long)(interval * 60 * ONE_SECOND));
+        }
+    }
+
+    private void startTimer(final long interval) {
         if (!isTimerOn) {
             isTimerOn = true;
             // Update the elapsed time every second.
@@ -22,7 +46,7 @@ public class TimerViewModel extends ViewModel {
             final Runnable timerRunnable = new Runnable() {
                 @Override
                 public void run() {
-                    long millis =  interval * 60 * ONE_SECOND + startTime - System.currentTimeMillis();
+                    long millis =  interval + startTime - System.currentTimeMillis();
                     if (millis > 0) {
                         int seconds = (int) (millis / ONE_SECOND);
                         int minutes = seconds / 60;
@@ -36,19 +60,21 @@ public class TimerViewModel extends ViewModel {
                 }
             };
             timerHandler.postDelayed(timerRunnable, ONE_SECOND/2);
+            this.timerRunnable = timerRunnable;
+            this.timerHandler = timerHandler;
+            this.startTime = startTime;
+        }
+    }
+
+    private void setInterval(long interval) {
+        if (isTimerOn) {
+            stopTimer();
+            interval = interval + startTime - System.currentTimeMillis();
+            startTimer(interval);
         }
     }
 
     public MutableLiveData<String> getTimer() {
         return timer;
-    }
-
-    public void setTimer(int timer) {
-        if (isTimerOn) {
-            // TODO: 8/8/2018 adjust new interval value
-        }
-        int seconds = 0;
-        int minutes = timer;
-        this.timer.setValue(String.format("%d:%02d", minutes, seconds));
     }
 }
