@@ -5,6 +5,9 @@ import android.os.Handler;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+/**
+ * {@link TimerViewModel} all about timer belong here.
+ */
 public class TimerViewModel extends ViewModel {
     private final int WORK_SESSION_STATE = 1;
     private final int BREAK_INTERVAL_STATE = 2;
@@ -13,7 +16,7 @@ public class TimerViewModel extends ViewModel {
     private final int ONE_SECOND = 1000;
 
     private MutableLiveData<String> timer = new MutableLiveData<>();
-    private MutableLiveData<Boolean> isAlert = new MutableLiveData<>();
+    private MutableLiveData<Boolean> alertSignal = new MutableLiveData<>();
 
     private SettingsViewModel settingsViewModel;
     private Runnable timerRunnable;
@@ -26,27 +29,6 @@ public class TimerViewModel extends ViewModel {
 
     private String alertTitle;
     private String alertMessage;
-
-    private void updateTimerState() {
-        switch (timerState) {
-            case WORK_SESSION_STATE:
-                workSessionCounter++;
-                alertTitle = "Work session completed!";
-                if (workSessionCounter == WORK_SESSIONS_BEFORE_LONG_BREAK) {
-                    timerState = LONG_BREAK_INTERVAL_STATE;
-                    alertMessage = "Start long break?";
-                } else {
-                    timerState = BREAK_INTERVAL_STATE;
-                    alertMessage = "Start break?";
-                }
-                break;
-            default:
-                timerState = WORK_SESSION_STATE;
-                alertTitle = "Break completed!";
-                alertMessage = "Start work session!";
-        }
-        isAlert.setValue(true);
-    }
 
     public void setTimerInterval(SettingsViewModel settingsViewModel) {
         this.settingsViewModel = settingsViewModel;
@@ -87,6 +69,11 @@ public class TimerViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Starts the timer and updates LiveData component value.
+     *
+     * @param interval   The interval in milliseconds.
+     */
     private void startTimer(final long interval) {
         if (!isTimerOn) {
             isTimerOn = true;
@@ -117,12 +104,33 @@ public class TimerViewModel extends ViewModel {
         }
     }
 
+    private void updateTimerState() {
+        switch (timerState) {
+            case WORK_SESSION_STATE:
+                workSessionCounter++;
+                alertTitle = "Work session completed!";
+                if (workSessionCounter == WORK_SESSIONS_BEFORE_LONG_BREAK) {
+                    timerState = LONG_BREAK_INTERVAL_STATE;
+                    alertMessage = "Start long break?";
+                } else {
+                    timerState = BREAK_INTERVAL_STATE;
+                    alertMessage = "Start break?";
+                }
+                break;
+            default:
+                timerState = WORK_SESSION_STATE;
+                alertTitle = "Break completed!";
+                alertMessage = "Start work session!";
+        }
+        alertSignal.setValue(true);
+    }
+
     public MutableLiveData<String> getTimer() {
         return timer;
     }
 
-    public MutableLiveData<Boolean> getIsAlert() {
-        return isAlert;
+    public MutableLiveData<Boolean> getAlertSignal() {
+        return alertSignal;
     }
 
     public String getAlertTitle() {

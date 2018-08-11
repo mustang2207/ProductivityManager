@@ -1,7 +1,10 @@
 package com.mustang2207.productivitytimer.fragments;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +41,6 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         SettingsViewModel settingsViewModel = ViewModelProviders.of(getActivity()).get(SettingsViewModel.class);
         timerViewModel = ViewModelProviders.of(getActivity()).get(TimerViewModel.class);
-
         timerViewModel.setTimerInterval(settingsViewModel);
 
         final AppCompatTextView timerTextView = getActivity().findViewById(R.id.mn_fr_tv_timer);
@@ -55,10 +57,16 @@ public class MainFragment extends Fragment {
             }
         });
 
-        timerViewModel.getIsAlert().observe(getActivity(), new Observer<Boolean>() {
+        final Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+        timerViewModel.getAlertSignal().observe(getActivity(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 alertView(timerViewModel.getAlertTitle(),timerViewModel.getAlertMessage());
+                if (android.os.Build.VERSION.SDK_INT >= 26) {
+                    vibrator.vibrate(VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE));
+                } else {
+                    vibrator.vibrate(2000);
+                }
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.mustang2207.productivitytimer;
 
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         appPreferences = new AppPreferences(this);
         appPreferences.load();
         initUI();
+
+        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
     }
 
     @Override

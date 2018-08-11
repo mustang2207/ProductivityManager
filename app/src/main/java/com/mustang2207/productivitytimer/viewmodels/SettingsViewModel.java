@@ -3,6 +3,9 @@ package com.mustang2207.productivitytimer.viewmodels;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+/**
+ * {@link SettingsViewModel} all LiveData from settingsFragment belong here.
+ */
 public class SettingsViewModel extends ViewModel {
     private MutableLiveData<Integer> workSession = new MutableLiveData<>();
     private MutableLiveData<Integer> breakInterval = new MutableLiveData<>();
