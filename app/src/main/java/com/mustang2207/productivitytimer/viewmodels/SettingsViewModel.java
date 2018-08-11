@@ -4,9 +4,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class SettingsViewModel extends ViewModel {
-
     private MutableLiveData<Integer> workSession = new MutableLiveData<>();
-    private MutableLiveData<Integer> BreakInterval = new MutableLiveData<>();
+    private MutableLiveData<Integer> breakInterval = new MutableLiveData<>();
     private MutableLiveData<Integer> longBreakInterval = new MutableLiveData<>();
 
     public MutableLiveData<Integer> getWorkSession() {
@@ -14,7 +13,7 @@ public class SettingsViewModel extends ViewModel {
     }
 
     public MutableLiveData<Integer> getBreakInterval() {
-        return BreakInterval;
+        return breakInterval;
     }
 
     public MutableLiveData<Integer> getLongBreakInterval() {
@@ -26,7 +25,7 @@ public class SettingsViewModel extends ViewModel {
     }
 
     public void setBreakInterval(int breakInterval) {
-        this.BreakInterval.setValue(breakInterval);
+        this.breakInterval.setValue(breakInterval);
     }
 
     public void setLongBreakInterval(int longBreakInterval) {

@@ -1,16 +1,6 @@
 package com.mustang2207.productivitytimer.fragments;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatSeekBar;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +9,21 @@ import android.widget.SeekBar;
 import com.mustang2207.productivitytimer.R;
 import com.mustang2207.productivitytimer.viewmodels.SettingsViewModel;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSeekBar;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 public class SettingsFragment extends Fragment {
+
+    private final int WORK_SESSION_BASE_VALUE = 15;
+    private final int WORK_SESSION_INCREMENT = 5;
+    private final int BREAK_INTERVAL_BASE_VALUE = 5;
+    private final int BREAK_INTERVAL_INCREMENT = 1;
+    private final int LONG_BREAK_INTERVAL_BASE_VALUE = 5;
+    private final int LONG_BREAK_INTERVAL_INCREMENT = 5;
 
     private SettingsViewModel mSettingsViewModel;
 
@@ -42,7 +46,6 @@ public class SettingsFragment extends Fragment {
         initUI();
     }
 
-
     private void initUI() {
         initWorkSessionSeekBar();
         initWorkSessionTextView();
@@ -60,7 +63,8 @@ public class SettingsFragment extends Fragment {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                mSettingsViewModel.setWorkSession(progress);
+                mSettingsViewModel.setWorkSession(
+                        WORK_SESSION_BASE_VALUE + progress * WORK_SESSION_INCREMENT);
             }
 
             @Override
@@ -91,7 +95,8 @@ public class SettingsFragment extends Fragment {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                mSettingsViewModel.setBreakInterval(progress);
+                mSettingsViewModel.setBreakInterval(
+                        BREAK_INTERVAL_BASE_VALUE + progress * BREAK_INTERVAL_INCREMENT);
             }
 
             @Override
@@ -122,7 +127,8 @@ public class SettingsFragment extends Fragment {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
-                mSettingsViewModel.setLongBreakInterval(progress);
+                mSettingsViewModel.setLongBreakInterval(
+                        LONG_BREAK_INTERVAL_BASE_VALUE + progress * LONG_BREAK_INTERVAL_INCREMENT);
             }
 
             @Override
