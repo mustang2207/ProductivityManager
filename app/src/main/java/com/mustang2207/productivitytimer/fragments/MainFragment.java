@@ -44,10 +44,17 @@ public class MainFragment extends Fragment {
         timerViewModel.setTimerInterval(settingsViewModel);
 
         final AppCompatTextView timerTextView = getActivity().findViewById(R.id.mn_fr_tv_timer);
+        final AppCompatTextView headerTextView = getActivity().findViewById(R.id.mn_fr_tv_header);
+        timerViewModel.getHeader().observe(getActivity(), new Observer<String>() {
+            @Override
+            public void onChanged(String str) {
+                headerTextView.setText(str);
+            }
+        });
         timerViewModel.getTimer().observe(getActivity(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String str) {
-                timerTextView.setText(timerViewModel.getTimer().getValue());
+                timerTextView.setText(str);
             }
         });
         timerTextView.setOnClickListener(new View.OnClickListener() {
@@ -78,12 +85,15 @@ public class MainFragment extends Fragment {
                 .setMessage(message)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialoginterface, int i) {
+                        //timerViewModel.updateTimerInterval();
                         dialoginterface.cancel();
                 }})
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialoginterface, int i) {
                         timerViewModel.updateTimerInterval();
                         timerViewModel.startTimer();
+                        dialoginterface.cancel();
+                        // TODO: 8/11/2018 alert bug after back button
                     }
                 }).show();
     }

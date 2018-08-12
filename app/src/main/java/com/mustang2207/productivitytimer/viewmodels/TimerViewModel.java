@@ -16,6 +16,7 @@ public class TimerViewModel extends ViewModel {
     private final int ONE_SECOND = 1000;
 
     private MutableLiveData<String> timer = new MutableLiveData<>();
+    private MutableLiveData<String> header = new MutableLiveData<>();
     private MutableLiveData<Boolean> alertSignal = new MutableLiveData<>();
 
     private SettingsViewModel settingsViewModel;
@@ -35,12 +36,15 @@ public class TimerViewModel extends ViewModel {
         switch (timerState) {
             case WORK_SESSION_STATE:
                 interval = settingsViewModel.getWorkSession().getValue();
+                header.setValue("Work");
                 break;
             case BREAK_INTERVAL_STATE:
                 interval = settingsViewModel.getBreakInterval().getValue();
+                header.setValue("Break");
                 break;
             case LONG_BREAK_INTERVAL_STATE:
                 interval = settingsViewModel.getLongBreakInterval().getValue();
+                header.setValue("Long break");
                 break;
         }
         if (!isTimerOn) {
@@ -84,7 +88,7 @@ public class TimerViewModel extends ViewModel {
             final Runnable timerRunnable = new Runnable() {
                 @Override
                 public void run() {
-                    long millis =  interval + startTime - System.currentTimeMillis();
+                    long millis =  /*interval*/ 4000 + startTime - System.currentTimeMillis();
                     if (millis > 0) {
                         int seconds = (int) (millis / ONE_SECOND);
                         int minutes = seconds / 60;
@@ -121,6 +125,7 @@ public class TimerViewModel extends ViewModel {
                 timerState = WORK_SESSION_STATE;
                 alertTitle = "Break completed!";
                 alertMessage = "Start work session!";
+                // TODO: 8/11/2018 move all strings to res
         }
         alertSignal.setValue(true);
     }
@@ -139,5 +144,9 @@ public class TimerViewModel extends ViewModel {
 
     public String getAlertMessage() {
         return alertMessage;
+    }
+
+    public MutableLiveData<String> getHeader() {
+        return header;
     }
 }

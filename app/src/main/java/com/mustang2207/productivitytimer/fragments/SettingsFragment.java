@@ -59,7 +59,9 @@ public class SettingsFragment extends Fragment {
 
     private void initWorkSessionSeekBar() {
         AppCompatSeekBar seekBar = getActivity().findViewById(R.id.st_fr_sb_work_session);
-        seekBar.setProgress(mSettingsViewModel.getWorkSession().getValue());
+        seekBar.setProgress(
+                (mSettingsViewModel.getWorkSession().getValue() - WORK_SESSION_BASE_VALUE)
+                / WORK_SESSION_INCREMENT);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
@@ -91,7 +93,9 @@ public class SettingsFragment extends Fragment {
 
     private void initBreakIntervalSeekBar() {
         AppCompatSeekBar seekBar = getActivity().findViewById(R.id.st_fr_sb_break_interval);
-        seekBar.setProgress(mSettingsViewModel.getBreakInterval().getValue());
+        seekBar.setProgress(
+                (mSettingsViewModel.getBreakInterval().getValue() - BREAK_INTERVAL_BASE_VALUE)
+                / BREAK_INTERVAL_INCREMENT);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
@@ -123,7 +127,9 @@ public class SettingsFragment extends Fragment {
 
     private void initLongBreakIntervalSeekBar() {
         AppCompatSeekBar seekBar = getActivity().findViewById(R.id.st_fr_sb_long_break_interval);
-        seekBar.setProgress(mSettingsViewModel.getLongBreakInterval().getValue());
+        seekBar.setProgress(
+                (mSettingsViewModel.getLongBreakInterval().getValue() - LONG_BREAK_INTERVAL_BASE_VALUE)
+                / LONG_BREAK_INTERVAL_INCREMENT);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
