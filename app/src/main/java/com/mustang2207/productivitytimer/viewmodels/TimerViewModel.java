@@ -17,7 +17,6 @@ public class TimerViewModel extends ViewModel {
 
     private MutableLiveData<String> timer = new MutableLiveData<>();
     private MutableLiveData<String> header = new MutableLiveData<>();
-    private MutableLiveData<Boolean> alertSignal = new MutableLiveData<>();
 
     private SettingsViewModel settingsViewModel;
     private Runnable timerRunnable;
@@ -30,6 +29,16 @@ public class TimerViewModel extends ViewModel {
 
     private String alertTitle;
     private String alertMessage;
+
+    public interface TimerListener{
+        void onTimerStatusChanged();
+    }
+
+    private TimerListener timerListener;
+
+    public void setTimerLister(TimerListener timerLister) {
+        this.timerListener = timerLister;
+    }
 
     public void setTimerInterval(SettingsViewModel settingsViewModel) {
         this.settingsViewModel = settingsViewModel;
@@ -127,15 +136,11 @@ public class TimerViewModel extends ViewModel {
                 alertMessage = "Start work session!";
                 // TODO: 8/11/2018 move all strings to res
         }
-        alertSignal.setValue(true);
+        if (timerListener != null) timerListener.onTimerStatusChanged();
     }
 
     public MutableLiveData<String> getTimer() {
         return timer;
-    }
-
-    public MutableLiveData<Boolean> getAlertSignal() {
-        return alertSignal;
     }
 
     public String getAlertTitle() {

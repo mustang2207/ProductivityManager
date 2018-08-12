@@ -65,9 +65,9 @@ public class MainFragment extends Fragment {
         });
 
         final Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-        timerViewModel.getAlertSignal().observe(getActivity(), new Observer<Boolean>() {
+        timerViewModel.setTimerLister(new TimerViewModel.TimerListener() {
             @Override
-            public void onChanged(Boolean aBoolean) {
+            public void onTimerStatusChanged() {
                 alertView(timerViewModel.getAlertTitle(),timerViewModel.getAlertMessage());
                 if (android.os.Build.VERSION.SDK_INT >= 26) {
                     vibrator.vibrate(VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE));
@@ -76,6 +76,7 @@ public class MainFragment extends Fragment {
                 }
             }
         });
+
     }
 
     private void alertView(String title, String message ) {
@@ -93,7 +94,6 @@ public class MainFragment extends Fragment {
                         timerViewModel.updateTimerInterval();
                         timerViewModel.startTimer();
                         dialoginterface.cancel();
-                        // TODO: 8/11/2018 alert bug after back button
                     }
                 }).show();
     }
