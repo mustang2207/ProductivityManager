@@ -39,6 +39,10 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initUi();
+    }
+
+    private void initUi() {
         SettingsViewModel settingsViewModel = ViewModelProviders.of(getActivity()).get(SettingsViewModel.class);
         timerViewModel = ViewModelProviders.of(getActivity()).get(TimerViewModel.class);
         timerViewModel.setTimerInterval(settingsViewModel);
@@ -76,7 +80,6 @@ public class MainFragment extends Fragment {
                 }
             }
         });
-
     }
 
     private void alertView(String title, String message ) {

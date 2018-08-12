@@ -97,7 +97,7 @@ public class TimerViewModel extends ViewModel {
             final Runnable timerRunnable = new Runnable() {
                 @Override
                 public void run() {
-                    long millis =  /*interval*/ 4000 + startTime - System.currentTimeMillis();
+                    long millis = interval + startTime - System.currentTimeMillis();
                     if (millis > 0) {
                         int seconds = (int) (millis / ONE_SECOND);
                         int minutes = seconds / 60;

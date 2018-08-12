@@ -16,6 +16,8 @@
         android:layout_marginBottom="16dp"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display3"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toTopOf="@+id/mn_fr_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
