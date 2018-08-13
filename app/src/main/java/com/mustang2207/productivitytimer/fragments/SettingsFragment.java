@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.SeekBar;
 
 import com.mustang2207.productivitytimer.R;
+import com.mustang2207.productivitytimer.utilities.Constants;
 import com.mustang2207.productivitytimer.viewmodels.SettingsViewModel;
 
 import java.util.Objects;
@@ -21,13 +22,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 public class SettingsFragment extends Fragment {
-
-    private final int WORK_SESSION_BASE_VALUE = 15;
-    private final int WORK_SESSION_INCREMENT = 5;
-    private final int BREAK_INTERVAL_BASE_VALUE = 5;
-    private final int BREAK_INTERVAL_INCREMENT = 1;
-    private final int LONG_BREAK_INTERVAL_BASE_VALUE = 5;
-    private final int LONG_BREAK_INTERVAL_INCREMENT = 5;
 
     private SettingsViewModel settingsViewModel;
 
@@ -59,13 +53,13 @@ public class SettingsFragment extends Fragment {
     private void initWorkSessionSeekBar() {
         AppCompatSeekBar seekBar = Objects.requireNonNull(getActivity()).findViewById(R.id.st_fr_sb_work_session);
         seekBar.setProgress(
-                (settingsViewModel.getWorkSession().getValue() - WORK_SESSION_BASE_VALUE)
-                / WORK_SESSION_INCREMENT);
+                (settingsViewModel.getWorkSession().getValue() - Constants.WORK_SESSION_BASE_VALUE)
+                / Constants.WORK_SESSION_INCREMENT);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 settingsViewModel.setWorkSession(
-                        WORK_SESSION_BASE_VALUE + progress * WORK_SESSION_INCREMENT);
+                        Constants.WORK_SESSION_BASE_VALUE + progress * Constants.WORK_SESSION_INCREMENT);
             }
 
             @Override
@@ -74,7 +68,7 @@ public class SettingsFragment extends Fragment {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull SeekBar seekBar) {
                 seekBar.getProgress();
             }
         });
@@ -85,7 +79,7 @@ public class SettingsFragment extends Fragment {
         settingsViewModel.getWorkSession().observe(getActivity(), new Observer<Integer>() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onChanged(Integer progress) {
+            public void onChanged(@NonNull Integer progress) {
                 textView.setText(progress.toString());
             }
         });
@@ -95,13 +89,13 @@ public class SettingsFragment extends Fragment {
     private void initBreakIntervalSeekBar() {
         AppCompatSeekBar seekBar = Objects.requireNonNull(getActivity()).findViewById(R.id.st_fr_sb_break_interval);
         seekBar.setProgress(
-                (settingsViewModel.getBreakInterval().getValue() - BREAK_INTERVAL_BASE_VALUE)
-                / BREAK_INTERVAL_INCREMENT);
+                (settingsViewModel.getBreakInterval().getValue() - Constants.BREAK_INTERVAL_BASE_VALUE)
+                / Constants.BREAK_INTERVAL_INCREMENT);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 settingsViewModel.setBreakInterval(
-                        BREAK_INTERVAL_BASE_VALUE + progress * BREAK_INTERVAL_INCREMENT);
+                        Constants.BREAK_INTERVAL_BASE_VALUE + progress * Constants.BREAK_INTERVAL_INCREMENT);
             }
 
             @Override
@@ -110,7 +104,7 @@ public class SettingsFragment extends Fragment {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull SeekBar seekBar) {
                 seekBar.getProgress();
             }
         });
@@ -121,7 +115,7 @@ public class SettingsFragment extends Fragment {
         settingsViewModel.getBreakInterval().observe(getActivity(), new Observer<Integer>() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onChanged(Integer progress) {
+            public void onChanged(@NonNull Integer progress) {
                 textView.setText(progress.toString());
             }
         });
@@ -131,13 +125,13 @@ public class SettingsFragment extends Fragment {
     private void initLongBreakIntervalSeekBar() {
         AppCompatSeekBar seekBar = Objects.requireNonNull(getActivity()).findViewById(R.id.st_fr_sb_long_break_interval);
         seekBar.setProgress(
-                (settingsViewModel.getLongBreakInterval().getValue() - LONG_BREAK_INTERVAL_BASE_VALUE)
-                / LONG_BREAK_INTERVAL_INCREMENT);
+                (settingsViewModel.getLongBreakInterval().getValue() - Constants.LONG_BREAK_INTERVAL_BASE_VALUE)
+                / Constants.LONG_BREAK_INTERVAL_INCREMENT);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
                 settingsViewModel.setLongBreakInterval(
-                        LONG_BREAK_INTERVAL_BASE_VALUE + progress * LONG_BREAK_INTERVAL_INCREMENT);
+                        Constants.LONG_BREAK_INTERVAL_BASE_VALUE + progress * Constants.LONG_BREAK_INTERVAL_INCREMENT);
             }
 
             @Override
@@ -146,7 +140,7 @@ public class SettingsFragment extends Fragment {
             }
 
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+            public void onStopTrackingTouch(@NonNull SeekBar seekBar) {
                 seekBar.getProgress();
             }
         });
@@ -157,7 +151,7 @@ public class SettingsFragment extends Fragment {
         settingsViewModel.getLongBreakInterval().observe(getActivity(), new Observer<Integer>() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void onChanged(Integer progress) {
+            public void onChanged(@NonNull Integer progress) {
                 textView.setText(progress.toString());
             }
         });

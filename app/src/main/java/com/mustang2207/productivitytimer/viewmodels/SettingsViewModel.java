@@ -17,11 +17,12 @@ public class SettingsViewModel extends ViewModel {
         return workSession;
     }
 
+    @NonNull
     public MutableLiveData<Integer> getBreakInterval() {
         return breakInterval;
     }
 
-
+    @NonNull
     public MutableLiveData<Integer> getLongBreakInterval() {
         return longBreakInterval;
     }

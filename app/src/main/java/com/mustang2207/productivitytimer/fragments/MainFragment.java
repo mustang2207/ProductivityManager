@@ -88,12 +88,12 @@ public class MainFragment extends Fragment {
                 .setCancelable(false)
                 .setMessage(message)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialoginterface, int i) {
+                    public void onClick(@NonNull DialogInterface dialoginterface, int i) {
                         //timerViewModel.updateTimerInterval();
                         dialoginterface.cancel();
                 }})
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialoginterface, int i) {
+                    public void onClick(@NonNull DialogInterface dialoginterface, int i) {
                         timerViewModel.updateTimerInterval();
                         timerViewModel.startTimer();
                         dialoginterface.cancel();

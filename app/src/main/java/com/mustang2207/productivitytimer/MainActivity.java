@@ -6,6 +6,7 @@ import android.view.MenuItem;
 
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.navigation.NavController;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // Have the NavHelper look for an action or destination matching the menu
         // item id and navigate there if found.
         // Otherwise, bubble up to the parent.
