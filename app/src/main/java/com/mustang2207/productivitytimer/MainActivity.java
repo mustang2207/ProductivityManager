@@ -1,9 +1,10 @@
 package com.mustang2207.productivitytimer;
 
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,8 +24,6 @@ public class MainActivity extends AppCompatActivity {
         appPreferences = new AppPreferences(this);
         appPreferences.load();
         initUI();
-
-        Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
     }
 
     @Override
@@ -61,6 +60,6 @@ public class MainActivity extends AppCompatActivity {
                 com.mustang2207.productivitytimer.R.id.my_nav_host_fragment);
         Toolbar toolbar = findViewById(com.mustang2207.productivitytimer.R.id.toolbar);
         setSupportActionBar(toolbar);
-        NavigationUI.setupActionBarWithNavController(this, finalHost.getNavController());
+        NavigationUI.setupActionBarWithNavController(this, Objects.requireNonNull(finalHost).getNavController());
     }
 }

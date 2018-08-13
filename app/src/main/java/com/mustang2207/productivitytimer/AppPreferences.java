@@ -19,8 +19,8 @@ class AppPreferences {
     private final static int BREAK_INTERVAL_DEFAULT_VALUE = 5;
     private final static int LONG_BREAK_INTERVAL_DEFAULT_VALUE = 20;
 
-    private SharedPreferences sharedPreferences;
-    private SettingsViewModel settingsViewModel;
+    private final SharedPreferences sharedPreferences;
+    private final SettingsViewModel settingsViewModel;
 
     AppPreferences(FragmentActivity mainActivity) {
         sharedPreferences = mainActivity.getSharedPreferences(PREFERENCE_ID, Context.MODE_PRIVATE);
@@ -36,9 +36,10 @@ class AppPreferences {
         settingsViewModel.setLongBreakInterval(longBreakInterval);
     }
 
+    @SuppressWarnings("ConstantConditions")
     void save() {
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(WORK_SESSION, settingsViewModel.getWorkSession().getValue());
+        editor.putInt(WORK_SESSION,  settingsViewModel.getWorkSession().getValue());
         editor.putInt(BREAK_INTERVAL, settingsViewModel.getBreakInterval().getValue());
         editor.putInt(LONG_BREAK_INTERVAL, settingsViewModel.getLongBreakInterval().getValue());
         editor.apply();

@@ -8,5 +8,6 @@
         android:id="@+id/fragment_settings"
         android:icon="@android:drawable/ic_menu_preferences"
         app:showAsAction="always"
-        android:title="settingsButton"/>
+        android:title="settingsButton"
+        tools:ignore="HardcodedText" />
 </menu>

@@ -1,5 +1,6 @@
 package com.mustang2207.productivitytimer.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,9 @@ import android.widget.SeekBar;
 import com.mustang2207.productivitytimer.R;
 import com.mustang2207.productivitytimer.viewmodels.SettingsViewModel;
 
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatSeekBar;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -28,7 +32,7 @@ public class SettingsFragment extends Fragment {
     private SettingsViewModel settingsViewModel;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_settings, container, false);
     }
@@ -36,7 +40,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        settingsViewModel = ViewModelProviders.of(getActivity()).get(SettingsViewModel.class);
+        settingsViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(SettingsViewModel.class);
         initUI();
     }
 
@@ -51,8 +55,9 @@ public class SettingsFragment extends Fragment {
         initLongBreakIntervalTextView();
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void initWorkSessionSeekBar() {
-        AppCompatSeekBar seekBar = getActivity().findViewById(R.id.st_fr_sb_work_session);
+        AppCompatSeekBar seekBar = Objects.requireNonNull(getActivity()).findViewById(R.id.st_fr_sb_work_session);
         seekBar.setProgress(
                 (settingsViewModel.getWorkSession().getValue() - WORK_SESSION_BASE_VALUE)
                 / WORK_SESSION_INCREMENT);
@@ -76,8 +81,9 @@ public class SettingsFragment extends Fragment {
     }
 
     private void initWorkSessionTextView() {
-        final AppCompatTextView textView = getActivity().findViewById(R.id.st_fr_tv_work_session_value);
+        final AppCompatTextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.st_fr_tv_work_session_value);
         settingsViewModel.getWorkSession().observe(getActivity(), new Observer<Integer>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onChanged(Integer progress) {
                 textView.setText(progress.toString());
@@ -85,8 +91,9 @@ public class SettingsFragment extends Fragment {
         });
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void initBreakIntervalSeekBar() {
-        AppCompatSeekBar seekBar = getActivity().findViewById(R.id.st_fr_sb_break_interval);
+        AppCompatSeekBar seekBar = Objects.requireNonNull(getActivity()).findViewById(R.id.st_fr_sb_break_interval);
         seekBar.setProgress(
                 (settingsViewModel.getBreakInterval().getValue() - BREAK_INTERVAL_BASE_VALUE)
                 / BREAK_INTERVAL_INCREMENT);
@@ -110,8 +117,9 @@ public class SettingsFragment extends Fragment {
     }
 
     private void initBreakIntervalTextView() {
-        final AppCompatTextView textView = getActivity().findViewById(R.id.st_fr_tv_break_interval_value);
+        final AppCompatTextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.st_fr_tv_break_interval_value);
         settingsViewModel.getBreakInterval().observe(getActivity(), new Observer<Integer>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onChanged(Integer progress) {
                 textView.setText(progress.toString());
@@ -119,8 +127,9 @@ public class SettingsFragment extends Fragment {
         });
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void initLongBreakIntervalSeekBar() {
-        AppCompatSeekBar seekBar = getActivity().findViewById(R.id.st_fr_sb_long_break_interval);
+        AppCompatSeekBar seekBar = Objects.requireNonNull(getActivity()).findViewById(R.id.st_fr_sb_long_break_interval);
         seekBar.setProgress(
                 (settingsViewModel.getLongBreakInterval().getValue() - LONG_BREAK_INTERVAL_BASE_VALUE)
                 / LONG_BREAK_INTERVAL_INCREMENT);
@@ -144,8 +153,9 @@ public class SettingsFragment extends Fragment {
     }
 
     private void initLongBreakIntervalTextView() {
-        final AppCompatTextView textView = getActivity().findViewById(R.id.st_fr_tv_long_break_interval_value);
+        final AppCompatTextView textView = Objects.requireNonNull(getActivity()).findViewById(R.id.st_fr_tv_long_break_interval_value);
         settingsViewModel.getLongBreakInterval().observe(getActivity(), new Observer<Integer>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onChanged(Integer progress) {
                 textView.setText(progress.toString());

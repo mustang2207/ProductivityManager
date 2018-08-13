@@ -1,5 +1,6 @@
 package com.mustang2207.productivitytimer.viewmodels;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -7,10 +8,11 @@ import androidx.lifecycle.ViewModel;
  * {@link SettingsViewModel} all LiveData from settingsFragment belong here.
  */
 public class SettingsViewModel extends ViewModel {
-    private MutableLiveData<Integer> workSession = new MutableLiveData<>();
-    private MutableLiveData<Integer> breakInterval = new MutableLiveData<>();
-    private MutableLiveData<Integer> longBreakInterval = new MutableLiveData<>();
+    private final MutableLiveData<Integer> workSession = new MutableLiveData<>();
+    private final MutableLiveData<Integer> breakInterval = new MutableLiveData<>();
+    private final MutableLiveData<Integer> longBreakInterval = new MutableLiveData<>();
 
+    @NonNull
     public MutableLiveData<Integer> getWorkSession() {
         return workSession;
     }
@@ -18,6 +20,7 @@ public class SettingsViewModel extends ViewModel {
     public MutableLiveData<Integer> getBreakInterval() {
         return breakInterval;
     }
+
 
     public MutableLiveData<Integer> getLongBreakInterval() {
         return longBreakInterval;

@@ -13,6 +13,8 @@ import com.mustang2207.productivitytimer.R;
 import com.mustang2207.productivitytimer.viewmodels.SettingsViewModel;
 import com.mustang2207.productivitytimer.viewmodels.TimerViewModel;
 
+import java.util.Objects;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -24,10 +26,6 @@ import androidx.lifecycle.ViewModelProviders;
 public class MainFragment extends Fragment {
 
     private TimerViewModel timerViewModel;
-
-    public static MainFragment newInstance() {
-        return new MainFragment();
-    }
 
     @Nullable
     @Override
@@ -43,7 +41,7 @@ public class MainFragment extends Fragment {
     }
 
     private void initUi() {
-        SettingsViewModel settingsViewModel = ViewModelProviders.of(getActivity()).get(SettingsViewModel.class);
+        SettingsViewModel settingsViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(SettingsViewModel.class);
         timerViewModel = ViewModelProviders.of(getActivity()).get(TimerViewModel.class);
         timerViewModel.setTimerInterval(settingsViewModel);
 
@@ -73,17 +71,19 @@ public class MainFragment extends Fragment {
             @Override
             public void onTimerStatusChanged() {
                 alertView(timerViewModel.getAlertTitle(),timerViewModel.getAlertMessage());
-                if (android.os.Build.VERSION.SDK_INT >= 26) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE));
-                } else {
-                    vibrator.vibrate(2000);
+                if(vibrator != null) {
+                    if (android.os.Build.VERSION.SDK_INT >= 26) {
+                        vibrator.vibrate(VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE));
+                    } else {
+                        vibrator.vibrate(2000);
+                    }
                 }
             }
         });
     }
 
     private void alertView(String title, String message ) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder dialog = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
         dialog.setTitle(title)
                 .setCancelable(false)
                 .setMessage(message)

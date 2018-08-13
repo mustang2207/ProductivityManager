@@ -1,5 +1,6 @@
 package com.mustang2207.productivitytimer.viewmodels;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 
 import androidx.lifecycle.MutableLiveData;
@@ -12,11 +13,13 @@ public class TimerViewModel extends ViewModel {
     private final int WORK_SESSION_STATE = 1;
     private final int BREAK_INTERVAL_STATE = 2;
     private final int LONG_BREAK_INTERVAL_STATE = 3;
+    @SuppressWarnings("FieldCanBeLocal")
     private final int WORK_SESSIONS_BEFORE_LONG_BREAK = 4;
     private final int ONE_SECOND = 1000;
+    // TODO: 8/13/2018 use IntDef annotation
 
-    private MutableLiveData<String> timer = new MutableLiveData<>();
-    private MutableLiveData<String> header = new MutableLiveData<>();
+    private final MutableLiveData<String> timer = new MutableLiveData<>();
+    private final MutableLiveData<String> header = new MutableLiveData<>();
 
     private SettingsViewModel settingsViewModel;
     private Runnable timerRunnable;
@@ -40,10 +43,13 @@ public class TimerViewModel extends ViewModel {
         this.timerListener = timerLister;
     }
 
+    @SuppressWarnings("ConstantConditions")
+    @SuppressLint("DefaultLocale")
     public void setTimerInterval(SettingsViewModel settingsViewModel) {
         this.settingsViewModel = settingsViewModel;
         switch (timerState) {
             case WORK_SESSION_STATE:
+                //noinspection ConstantConditions
                 interval = settingsViewModel.getWorkSession().getValue();
                 header.setValue("Work");
                 break;
@@ -95,6 +101,7 @@ public class TimerViewModel extends ViewModel {
             //runs without a timer by reposting this handler at the end of the runnable
             final Handler timerHandler = new Handler();
             final Runnable timerRunnable = new Runnable() {
+                @SuppressLint("DefaultLocale")
                 @Override
                 public void run() {
                     long millis = interval + startTime - System.currentTimeMillis();
