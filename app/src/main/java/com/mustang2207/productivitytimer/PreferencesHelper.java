@@ -9,14 +9,14 @@ import com.mustang2207.productivitytimer.viewmodels.SettingsViewModel;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 /**
- * {@link AppPreferences} all about SharedPreferences use belong here.
+ * {@link PreferencesHelper} all about SharedPreferences use belong here.
  */
-class AppPreferences {
+class PreferencesHelper {
 
     private final SharedPreferences sharedPreferences;
     private final SettingsViewModel settingsViewModel;
 
-    AppPreferences(FragmentActivity mainActivity) {
+    PreferencesHelper(FragmentActivity mainActivity) {
         sharedPreferences = mainActivity.getSharedPreferences(Constants.PREFERENCE_ID, Context.MODE_PRIVATE);
         settingsViewModel = ViewModelProviders.of(mainActivity).get(SettingsViewModel.class);
     }
