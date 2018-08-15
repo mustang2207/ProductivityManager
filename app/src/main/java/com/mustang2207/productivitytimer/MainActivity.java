@@ -16,21 +16,13 @@ import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
 
-    private PreferencesHelper appPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.mustang2207.productivitytimer.R.layout.activity_main);
-        appPreferences = new PreferencesHelper(this);
-        appPreferences.load();
+        new PreferencesHelper(this, this);
         initUI();
-    }
-
-    @Override
-    protected void onDestroy() {
-        appPreferences.save();
-        super.onDestroy();
     }
 
     @Override
