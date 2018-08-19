@@ -44,18 +44,18 @@ public class MainFragment extends Fragment {
     private void initUi() {
         SettingsViewModel settingsViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(SettingsViewModel.class);
         timerViewModel = ViewModelProviders.of(getActivity()).get(TimerViewModel.class);
-        timerViewModel.setTimerInterval(settingsViewModel);
+        timerViewModel.set(settingsViewModel);
 
 
         final AppCompatTextView headerTextView = getActivity().findViewById(R.id.mn_fr_tv_header);
-        timerViewModel.getHeader().observe(getActivity(), new Observer<String>() {
+        timerViewModel.getHeaderText().observe(getActivity(), new Observer<String>() {
             @Override
             public void onChanged(String str) {
                 headerTextView.setText(str);
             }
         });
         final AppCompatTextView timerTextView = getActivity().findViewById(R.id.mn_fr_tv_timer);
-        timerViewModel.getTimer().observe(getActivity(), new Observer<String>() {
+        timerViewModel.getTimerText().observe(getActivity(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String str) {
                 timerTextView.setText(str);
@@ -64,14 +64,14 @@ public class MainFragment extends Fragment {
         timerTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timerViewModel.startTimer();
+                timerViewModel.start();
             }
         });
 
         final Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-        timerViewModel.setTimerLister(new TimerViewModel.TimerListener() {
+        timerViewModel.setLister(new TimerViewModel.Listener() {
             @Override
-            public void onTimerStatusChanged() {
+            public void onStatusChanged() {
                 alertView(timerViewModel.getAlertTitle(),timerViewModel.getAlertMessage());
                 if(vibrator != null) {
                     if (android.os.Build.VERSION.SDK_INT >= 26) {
@@ -89,14 +89,13 @@ public class MainFragment extends Fragment {
         dialog.setTitle(title)
                 .setCancelable(false)
                 .setMessage(message)
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    public void onClick(@NonNull DialogInterface dialoginterface, int i) {
-                        dialoginterface.cancel();
-                }})
+//                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//                    public void onClick(@NonNull DialogInterface dialoginterface, int i) {
+//                        dialoginterface.cancel();
+//                }})
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(@NonNull DialogInterface dialoginterface, int i) {
-                        timerViewModel.updateTimerInterval();
-                        timerViewModel.startTimer();
+                        timerViewModel.start();
                         dialoginterface.cancel();
                     }
                 }).show();

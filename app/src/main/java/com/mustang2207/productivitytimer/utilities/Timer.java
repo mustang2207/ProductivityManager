@@ -1,7 +1,6 @@
 package com.mustang2207.productivitytimer.utilities;
 
 import android.os.Handler;
-import android.os.SystemClock;
 import android.util.Log;
 
 public class Timer {
@@ -9,8 +8,9 @@ public class Timer {
     private boolean isTimerOn = false;
     private Handler timerHandler;
     private Runnable timerRunnable;
+    private Listener listener;
 
-    public void start(final long interval, final TimerListener timerListener) {
+    public void start(final long interval) {
         final long startTime = System.currentTimeMillis();
         timerHandler = new Handler();
         timerRunnable = new Runnable() {
@@ -20,10 +20,11 @@ public class Timer {
                 if (millis >= 0) {
                     Log.d("Inside timer - ",
                             String.valueOf(millis) + " " + String.valueOf(millis / 1000));
-                    timerListener.onTimeTick(millis);
+                    listener.onTick(millis);
                     timerHandler.postDelayed(this, Constants.ONE_SECOND);
                 } else {
                     stop();
+                    listener.onStop();
                 }
             }
         };
@@ -42,8 +43,15 @@ public class Timer {
         return isTimerOn;
     }
 
-    public interface TimerListener {
-        public void onTimeTick(long intervalLeft);
+    public void setListener(Listener listener) {
+        this.listener = listener;
+    }
+
+    public interface Listener {
+
+        void onTick(long intervalLeft);
+
+        void onStop();
     }
 
 }

@@ -1,154 +1,137 @@
 package com.mustang2207.productivitytimer.viewmodels;
 
 import android.annotation.SuppressLint;
-import android.os.Handler;
+import android.util.Log;
 
 import com.mustang2207.productivitytimer.utilities.Constants;
+import com.mustang2207.productivitytimer.utilities.Timer;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import static com.mustang2207.productivitytimer.utilities.Constants.*;
+
 /**
- * {@link TimerViewModel} all about timer belong here.
+ * {@link TimerViewModel} all about timerText belong here.
  */
+@SuppressLint("DefaultLocale")
 public class TimerViewModel extends ViewModel {
 
-    // TODO: 8/16/2018 cut timer into a separate class in utilities
-    private final MutableLiveData<String> timer = new MutableLiveData<>();
-    private final MutableLiveData<String> header = new MutableLiveData<>();
-
-    private SettingsViewModel settingsViewModel;
-    private Runnable timerRunnable;
-    private Handler timerHandler;
-    @Constants.TimerState private int timerState = Constants.WORK_SESSION_STATE;
-    private boolean isTimerOn = false;
-    private int interval;
-    private int workSessionCounter = 0;
-    private long startTime = -1;
-
+    @TimerState private int timerState = WORK_SESSION_STATE;
+    private MutableLiveData<String> timerText = new MutableLiveData<>();
+    private MutableLiveData<String> headerText = new MutableLiveData<>();
+    private Timer timer;
+    private Listener listener;
     private String alertTitle;
     private String alertMessage;
+    private long interval;
+    private int workSessionCounter = 0;
 
-    public interface TimerListener{
-        void onTimerStatusChanged();
-    }
-
-    private TimerListener timerListener;
-
-    public void setTimerLister(TimerListener timerLister) {
-        this.timerListener = timerLister;
+    public TimerViewModel() {
+        super();
+        initTimer();
     }
 
     @SuppressWarnings("ConstantConditions")
-    @SuppressLint("DefaultLocale")
-    public void setTimerInterval(@NonNull SettingsViewModel settingsViewModel) {
-        this.settingsViewModel = settingsViewModel;
+    public void set(@NonNull SettingsViewModel settingsViewModel) {
+        setHeaderText();
+        int intervalMin = 0;
         switch (timerState) {
-            case Constants.WORK_SESSION_STATE:
-                //noinspection ConstantConditions
-                interval = settingsViewModel.getWorkSession().getValue();
-                header.setValue("Work");
+            case WORK_SESSION_STATE:
+                intervalMin = settingsViewModel.getWorkSession().getValue();
                 break;
-            case Constants.BREAK_INTERVAL_STATE:
-                interval = settingsViewModel.getBreakInterval().getValue();
-                header.setValue("Break");
+            case BREAK_INTERVAL_STATE:
+                intervalMin = settingsViewModel.getBreakInterval().getValue();
                 break;
-            case Constants.LONG_BREAK_INTERVAL_STATE:
-                interval = settingsViewModel.getLongBreakInterval().getValue();
-                header.setValue("Long break");
+            case LONG_BREAK_INTERVAL_STATE:
+                intervalMin = settingsViewModel.getLongBreakInterval().getValue();
                 break;
         }
-        if (!isTimerOn) {
+        interval = intervalMin * 60 * ONE_SECOND;
+        //interval = 4_000;
+        if (!timer.isTimerOn()) {
             int seconds = 0;
-            int minutes = interval;
-            this.timer.setValue(String.format("%d:%02d", minutes, seconds));
+            int minutes = intervalMin;
+            seconds = seconds % 60;
+            timerText.setValue(String.format("%d:%02d", minutes, seconds));
         } else {
-            stopTimer();
-            Long i = interval * 60 * Constants.ONE_SECOND + startTime - System.currentTimeMillis();
-            startTimer(i);
+            timer.stop();
+            timer.start(interval);
         }
     }
 
-    public void updateTimerInterval() {
-        setTimerInterval(settingsViewModel);
-
-    }
-
-    public void startTimer() {
-        startTimer((long)(interval * 60 * Constants.ONE_SECOND));
-    }
-
-    private void stopTimer() {
-        if (isTimerOn) {
-            timerHandler.removeCallbacks(timerRunnable);
-            isTimerOn = false;
-        }
-    }
-
-    /**
-     * Starts the timer and updates LiveData component value.
-     *
-     * @param interval   The interval in milliseconds.
-     */
-    private void startTimer(final long interval) {
-        if (!isTimerOn) {
-            isTimerOn = true;
-            // Update the elapsed time every second.
-            final long startTime = System.currentTimeMillis();
-            //runs without a timer by reposting this handler at the end of the runnable
-            final Handler timerHandler = new Handler();
-            final Runnable timerRunnable = new Runnable() {
-                @SuppressLint("DefaultLocale")
-                @Override
-                public void run() {
-                    long millis = interval + startTime - System.currentTimeMillis();
-                    if (millis > 0) {
-                        int seconds = (int) (millis / Constants.ONE_SECOND);
-                        int minutes = seconds / 60;
-                        seconds = seconds % 60;
-                        timer.postValue(String.format("%d:%02d", minutes, seconds));
-                        timerHandler.postDelayed(this, Constants.ONE_SECOND);
-                    } else {
-                        stopTimer();
-                        updateTimerState();
-                    }
-                }
-            };
-            timerHandler.postDelayed(timerRunnable, Constants.ONE_SECOND/2);
-            this.timerRunnable = timerRunnable;
-            this.timerHandler = timerHandler;
-            this.startTime = startTime;
+    public void start() {
+        if(!timer.isTimerOn()) {
+            setHeaderText();
+            timer.start(interval);
         }
     }
 
     @SuppressLint("SwitchIntDef")
-    private void updateTimerState() {
+    private void updateState() {
         switch (timerState) {
-            case Constants.WORK_SESSION_STATE:
+            case WORK_SESSION_STATE:
                 workSessionCounter++;
                 alertTitle = "Work session completed!";
-                if (workSessionCounter == Constants.WORK_SESSIONS_BEFORE_LONG_BREAK) {
-                    timerState = Constants.LONG_BREAK_INTERVAL_STATE;
+                if (workSessionCounter == WORK_SESSIONS_BEFORE_LONG_BREAK) {
+                    timerState = LONG_BREAK_INTERVAL_STATE;
                     alertMessage = "Start long break?";
                 } else {
-                    timerState = Constants.BREAK_INTERVAL_STATE;
+                    timerState = BREAK_INTERVAL_STATE;
                     alertMessage = "Start break?";
                 }
                 break;
             default:
-                timerState = Constants.WORK_SESSION_STATE;
+                timerState = WORK_SESSION_STATE;
                 alertTitle = "Break completed!";
                 alertMessage = "Start work session!";
                 // TODO: 8/11/2018 move all strings to res
         }
-        if (timerListener != null) timerListener.onTimerStatusChanged();
+        if (listener != null) listener.onStatusChanged();
     }
 
-    @NonNull
-    public MutableLiveData<String> getTimer() {
-        return timer;
+    private void initTimer() {
+        timer = new Timer();
+        timer.setListener(new Timer.Listener() {
+            @Override
+            public void onTick(long intervalLeft) {
+                int seconds = (int) (intervalLeft / ONE_SECOND);
+                int minutes = seconds / 60;
+                seconds = seconds % 60;
+                timerText.setValue(String.format("%d:%02d", minutes, seconds));
+                Log.d("timer:", timerText.getValue());
+            }
+
+            @Override
+            public void onStop() {
+                updateState();
+            }
+        });
     }
+
+    public void setHeaderText() {
+        switch (timerState) {
+            case WORK_SESSION_STATE:
+                headerText.setValue("Work");
+                break;
+            case BREAK_INTERVAL_STATE:
+                headerText.setValue("Break");
+                break;
+            case LONG_BREAK_INTERVAL_STATE:
+                headerText.setValue("Long break");
+                break;
+        }
+    }
+
+    public interface Listener {
+        void onStatusChanged();
+    }
+
+    public void setLister(Listener lister) {
+        this.listener = lister;
+    }
+
 
     public String getAlertTitle() {
         return alertTitle;
@@ -159,7 +142,12 @@ public class TimerViewModel extends ViewModel {
     }
 
     @NonNull
-    public MutableLiveData<String> getHeader() {
-        return header;
+    public MutableLiveData<String> getTimerText() {
+        return timerText;
+    }
+
+    @NonNull
+    public MutableLiveData<String> getHeaderText() {
+        return headerText;
     }
 }
