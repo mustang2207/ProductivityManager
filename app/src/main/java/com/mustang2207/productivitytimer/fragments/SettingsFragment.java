@@ -22,6 +22,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 public class SettingsFragment extends Fragment {
+    // TODO: 8/16/2018 implement mvp
 
     private SettingsViewModel settingsViewModel;
 

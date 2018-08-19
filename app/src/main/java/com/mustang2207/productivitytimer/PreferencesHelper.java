@@ -20,10 +20,21 @@ class PreferencesHelper implements LifecycleObserver {
     private final SharedPreferences sharedPreferences;
     private final SettingsViewModel settingsViewModel;
 
-    PreferencesHelper(LifecycleOwner lifecycleOwner, FragmentActivity mainActivity) {
+
+    static PreferencesHelper getInstance(
+            LifecycleOwner lifecycleOwner,
+            FragmentActivity mainActivity,
+            SettingsViewModel settingsViewModel) {
+        PreferencesHelper preferencesHelper = new PreferencesHelper(mainActivity, settingsViewModel);
+        lifecycleOwner.getLifecycle().addObserver(preferencesHelper);
+        return preferencesHelper;
+    }
+
+    private PreferencesHelper(
+            FragmentActivity mainActivity,
+            SettingsViewModel settingsViewModel) {
         sharedPreferences = mainActivity.getSharedPreferences(Constants.PREFERENCE_ID, Context.MODE_PRIVATE);
-        settingsViewModel = ViewModelProviders.of(mainActivity).get(SettingsViewModel.class);
-        lifecycleOwner.getLifecycle().addObserver(this);
+        this.settingsViewModel = settingsViewModel;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)

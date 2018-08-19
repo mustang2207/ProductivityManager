@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModel;
  */
 public class TimerViewModel extends ViewModel {
 
+    // TODO: 8/16/2018 cut timer into a separate class in utilities
     private final MutableLiveData<String> timer = new MutableLiveData<>();
     private final MutableLiveData<String> header = new MutableLiveData<>();
 
@@ -71,6 +72,7 @@ public class TimerViewModel extends ViewModel {
 
     public void updateTimerInterval() {
         setTimerInterval(settingsViewModel);
+
     }
 
     public void startTimer() {

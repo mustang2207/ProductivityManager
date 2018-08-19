@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mustang2207.productivitytimer.R;
+import com.mustang2207.productivitytimer.utilities.Constants;
 import com.mustang2207.productivitytimer.viewmodels.SettingsViewModel;
 import com.mustang2207.productivitytimer.viewmodels.TimerViewModel;
 
@@ -45,7 +46,7 @@ public class MainFragment extends Fragment {
         timerViewModel = ViewModelProviders.of(getActivity()).get(TimerViewModel.class);
         timerViewModel.setTimerInterval(settingsViewModel);
 
-        final AppCompatTextView timerTextView = getActivity().findViewById(R.id.mn_fr_tv_timer);
+
         final AppCompatTextView headerTextView = getActivity().findViewById(R.id.mn_fr_tv_header);
         timerViewModel.getHeader().observe(getActivity(), new Observer<String>() {
             @Override
@@ -53,6 +54,7 @@ public class MainFragment extends Fragment {
                 headerTextView.setText(str);
             }
         });
+        final AppCompatTextView timerTextView = getActivity().findViewById(R.id.mn_fr_tv_timer);
         timerViewModel.getTimer().observe(getActivity(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String str) {
@@ -73,9 +75,9 @@ public class MainFragment extends Fragment {
                 alertView(timerViewModel.getAlertTitle(),timerViewModel.getAlertMessage());
                 if(vibrator != null) {
                     if (android.os.Build.VERSION.SDK_INT >= 26) {
-                        vibrator.vibrate(VibrationEffect.createOneShot(2000, VibrationEffect.DEFAULT_AMPLITUDE));
+                        vibrator.vibrate(VibrationEffect.createOneShot(Constants.VIBRATION_DURATION, VibrationEffect.DEFAULT_AMPLITUDE));
                     } else {
-                        vibrator.vibrate(2000);
+                        vibrator.vibrate(Constants.VIBRATION_DURATION);
                     }
                 }
             }
@@ -89,7 +91,6 @@ public class MainFragment extends Fragment {
                 .setMessage(message)
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(@NonNull DialogInterface dialoginterface, int i) {
-                        //timerViewModel.updateTimerInterval();
                         dialoginterface.cancel();
                 }})
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {

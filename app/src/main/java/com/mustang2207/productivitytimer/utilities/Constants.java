@@ -24,6 +24,7 @@ public class Constants{
 
     public static final int WORK_SESSIONS_BEFORE_LONG_BREAK = 4;
     public static final int ONE_SECOND = 1000;
+    public static final int VIBRATION_DURATION = 2000;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({WORK_SESSION_STATE, BREAK_INTERVAL_STATE, LONG_BREAK_INTERVAL_STATE})
